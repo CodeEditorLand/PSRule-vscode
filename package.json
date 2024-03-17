@@ -1,35 +1,29 @@
 {
-  "name": "code",
-  "displayName": "PSRule",
-  "version": "0.0.1",
-  "private": true,
-  "description": "Validate infrastructure as code (IaC) and DevOps repositories using PSRule.",
-  "homepage": "https://github.com/microsoft/PSRule-vscode/blob/main/README.md",
-  "bugs": {
-    "url": "https://github.com/microsoft/PSRule-vscode/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/microsoft/PSRule-vscode.git"
-  },
-  "license": "SEE LICENSE IN LICENSE",
+  "activationEvents": [
+    "onLanguage:powershell",
+    "onLanguage:yaml",
+    "workspaceContains:/ps-rule.yaml",
+    "workspaceContains:**/ps-rule.yaml",
+    "workspaceContains:**/*.Rule.yaml",
+    "workspaceContains:**/*.Rule.yml",
+    "workspaceContains:**/*.Rule.json",
+    "workspaceContains:**/*.Rule.jsonc",
+    "workspaceContains:**/*.Rule.ps1",
+    "onCommand:workbench.action.tasks.runTask"
+  ],
   "author": {
     "name": "Microsoft"
   },
-  "publisher": "ps-rule",
-  "main": "./out/dist/main.js",
-  "scripts": {
-    "compile": "tsc -p ./ && dotnet build",
-    "esbuild": "npm run -S esbuild-base -- --sourcemap",
-    "esbuild-base": "esbuild ./src/main.ts --bundle --outfile=out/dist/main.js --external:vscode --format=cjs --platform=node",
-    "esbuild-watch": "npm run -S esbuild-base -- --sourcemap --watch",
-    "package": "vsce package --dependencies --pre-release --no-git-tag-version --no-update-package-json --githubBranch main --out out/package/",
-    "package:stable": "vsce package --dependencies --no-git-tag-version --no-update-package-json --githubBranch main --out out/package/",
-    "publish": "vsce publish --dependencies --pre-release --no-git-tag-version --no-update-package-json --githubBranch main --packagePath out/package/",
-    "publish:stable": "vsce publish --dependencies --no-git-tag-version --no-update-package-json --githubBranch main --packagePath out/package/",
-    "vscode:prepublish": "npm run -S esbuild-base -- --minify && dotnet publish ./dotnet/PSRule.EditorServices/ --output server/",
-    "watch": "tsc -watch -p ./"
+  "bugs": {
+    "url": "https://github.com/microsoft/PSRule-vscode/issues"
   },
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "description": "PSRule in untrusted mode.",
+      "supported": "limited"
+    }
+  },
+  "channel": "stable",
   "contributes": {
     "commands": [
       {
@@ -436,50 +430,56 @@
       }
     ]
   },
-  "activationEvents": [
-    "onLanguage:powershell",
-    "onLanguage:yaml",
-    "workspaceContains:/ps-rule.yaml",
-    "workspaceContains:**/ps-rule.yaml",
-    "workspaceContains:**/*.Rule.yaml",
-    "workspaceContains:**/*.Rule.yml",
-    "workspaceContains:**/*.Rule.json",
-    "workspaceContains:**/*.Rule.jsonc",
-    "workspaceContains:**/*.Rule.ps1",
-    "onCommand:workbench.action.tasks.runTask"
-  ],
   "dependencies": {
-    "fs-extra": "^11.2.0",
-    "vscode-languageclient": "^9.0.1"
+    "fs-extra": "11.2.0",
+    "vscode-languageclient": "9.0.1"
   },
+  "description": "Validate infrastructure as code (IaC) and DevOps repositories using PSRule.",
   "devDependencies": {
-    "@types/fs-extra": "^11.0.4",
-    "@types/mocha": "^10.0.6",
-    "@types/node": "^20.11.28",
+    "@types/fs-extra": "11.0.4",
+    "@types/mocha": "10.0.6",
+    "@types/node": "20.11.28",
     "@types/vscode": "1.87.0",
-    "@vscode/test-electron": "^2.3.9",
-    "@vscode/vsce": "^2.24.0",
-    "esbuild": "^0.20.2",
-    "glob": "^10.3.10",
-    "mocha": "^10.3.0",
-    "typescript": "^5.4.2"
+    "@vscode/test-electron": "2.3.9",
+    "@vscode/vsce": "2.24.0",
+    "esbuild": "0.20.2",
+    "glob": "10.3.10",
+    "mocha": "10.3.0",
+    "typescript": "5.4.2"
   },
+  "displayName": "PSRule",
   "extensionDependencies": [
     "ms-dotnettools.vscode-dotnet-runtime",
     "redhat.vscode-yaml",
     "vscode.powershell"
   ],
-  "icon": "media/icon256.png",
   "galleryBanner": {
     "color": "#0072c6",
     "theme": "dark"
   },
+  "homepage": "https://github.com/microsoft/PSRule-vscode/blob/main/README.md",
+  "icon": "media/icon256.png",
+  "license": "SEE LICENSE IN LICENSE",
+  "main": "./out/dist/main.js",
+  "name": "code",
   "preview": true,
-  "capabilities": {
-    "untrustedWorkspaces": {
-      "description": "PSRule in untrusted mode.",
-      "supported": "limited"
-    }
+  "private": true,
+  "publisher": "ps-rule",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/PSRule-vscode.git"
   },
-  "channel": "stable"
+  "scripts": {
+    "compile": "tsc -p ./ && dotnet build",
+    "esbuild": "npm run -S esbuild-base -- --sourcemap",
+    "esbuild-base": "esbuild ./src/main.ts --bundle --outfile=out/dist/main.js --external:vscode --format=cjs --platform=node",
+    "esbuild-watch": "npm run -S esbuild-base -- --sourcemap --watch",
+    "package": "vsce package --dependencies --pre-release --no-git-tag-version --no-update-package-json --githubBranch main --out out/package/",
+    "package:stable": "vsce package --dependencies --no-git-tag-version --no-update-package-json --githubBranch main --out out/package/",
+    "publish": "vsce publish --dependencies --pre-release --no-git-tag-version --no-update-package-json --githubBranch main --packagePath out/package/",
+    "publish:stable": "vsce publish --dependencies --no-git-tag-version --no-update-package-json --githubBranch main --packagePath out/package/",
+    "vscode:prepublish": "npm run -S esbuild-base -- --minify && dotnet publish ./dotnet/PSRule.EditorServices/ --output server/",
+    "watch": "tsc -watch -p ./"
+  },
+  "version": "0.0.1"
 }
