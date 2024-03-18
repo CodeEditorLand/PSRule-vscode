@@ -2,8 +2,17 @@
   "name": "code",
   "displayName": "PSRule",
   "version": "0.0.1",
-  "private": true,
+  "publisher": "ps-rule",
   "description": "Validate infrastructure as code (IaC) and DevOps repositories using PSRule.",
+  "author": {
+    "name": "Microsoft"
+  },
+  "engines": {
+    "vscode": "^1.87.0"
+  },
+  "channel": "stable",
+  "license": "SEE LICENSE IN LICENSE",
+  "homepage": "https://github.com/microsoft/PSRule-vscode/blob/main/README.md",
   "categories": [
     "Programming Languages",
     "Snippets"
@@ -13,34 +22,38 @@
     "json",
     "yaml"
   ],
-  "homepage": "https://github.com/microsoft/PSRule-vscode/blob/main/README.md",
-  "bugs": {
-    "url": "https://github.com/microsoft/PSRule-vscode/issues"
+  "galleryBanner": {
+    "color": "#0072c6",
+    "theme": "dark"
   },
+  "icon": "media/icon256.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/microsoft/PSRule-vscode.git"
   },
-  "license": "SEE LICENSE IN LICENSE",
-  "author": {
-    "name": "Microsoft"
+  "bugs": {
+    "url": "https://github.com/microsoft/PSRule-vscode/issues"
   },
-  "publisher": "ps-rule",
+  "private": true,
+  "preview": true,
+  "activationEvents": [
+    "onLanguage:powershell",
+    "onLanguage:yaml",
+    "workspaceContains:/ps-rule.yaml",
+    "workspaceContains:**/ps-rule.yaml",
+    "workspaceContains:**/*.Rule.yaml",
+    "workspaceContains:**/*.Rule.yml",
+    "workspaceContains:**/*.Rule.json",
+    "workspaceContains:**/*.Rule.jsonc",
+    "workspaceContains:**/*.Rule.ps1",
+    "onCommand:workbench.action.tasks.runTask"
+  ],
   "main": "./out/dist/main.js",
-  "scripts": {
-    "compile": "tsc -p ./ && dotnet build",
-    "esbuild": "npm run -S esbuild-base -- --sourcemap",
-    "esbuild-base": "esbuild ./src/main.ts --bundle --outfile=out/dist/main.js --external:vscode --format=cjs --platform=node",
-    "esbuild-watch": "npm run -S esbuild-base -- --sourcemap --watch",
-    "lint": "eslint . --ext .ts,.tsx",
-    "package": "vsce package --dependencies --pre-release --no-git-tag-version --no-update-package-json --githubBranch main --out out/package/",
-    "package:stable": "vsce package --dependencies --no-git-tag-version --no-update-package-json --githubBranch main --out out/package/",
-    "publish": "vsce publish --dependencies --pre-release --no-git-tag-version --no-update-package-json --githubBranch main --packagePath out/package/",
-    "publish:stable": "vsce publish --dependencies --no-git-tag-version --no-update-package-json --githubBranch main --packagePath out/package/",
-    "pretest": "npm run compile",
-    "test": "node ./out/dist/test/runTest.js",
-    "vscode:prepublish": "npm run -S esbuild-base -- --minify && dotnet publish ./dotnet/PSRule.EditorServices/ --output server/",
-    "watch": "tsc -watch -p ./"
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "PSRule in untrusted mode."
+    }
   },
   "contributes": {
     "commands": [
@@ -214,6 +227,76 @@
         }
       }
     ],
+    "taskDefinitions": [
+      {
+        "type": "PSRule",
+        "required": [],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "The path containing rules.",
+            "default": "./.ps-rule/"
+          },
+          "inputPath": {
+            "type": "string",
+            "description": "The path PSRule will look for input files. Defaults to workspace root.",
+            "default": "."
+          },
+          "baseline": {
+            "type": "string",
+            "description": "The name of a PSRule baseline to use. Baselines can be used from modules or specified in a separate file. This option overrides the default baseline setting set for a workspace or user."
+          },
+          "modules": {
+            "type": "array",
+            "description": "The name of one or more modules to use."
+          },
+          "outcome": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "Pass",
+                "Fail",
+                "Error"
+              ]
+            },
+            "default": [
+              "Fail",
+              "Error"
+            ]
+          }
+        }
+      }
+    ],
+    "snippets": [
+      {
+        "language": "powershell",
+        "path": "./snippets/powershell.json"
+      },
+      {
+        "language": "markdown",
+        "path": "./snippets/markdown.json"
+      },
+      {
+        "language": "yaml",
+        "path": "./snippets/yaml.json"
+      },
+      {
+        "language": "yaml",
+        "path": "./snippets/github-snippets.json"
+      },
+      {
+        "language": "yaml",
+        "path": "./snippets/pipelines-snippets.json"
+      },
+      {
+        "language": "json",
+        "path": "./snippets/json.json"
+      },
+      {
+        "language": "jsonc",
+        "path": "./snippets/json.json"
+      }
+    ],
     "grammars": [
       {
         "path": "./syntaxes/comments.json",
@@ -242,6 +325,32 @@
         "injectTo": [
           "source.yaml"
         ]
+      }
+    ],
+    "yamlValidation": [
+      {
+        "fileMatch": "ps-rule.yaml",
+        "url": "./schemas/PSRule-options.schema.json"
+      },
+      {
+        "fileMatch": "ps-rule.yml",
+        "url": "./schemas/PSRule-options.schema.json"
+      },
+      {
+        "fileMatch": "psrule.yaml",
+        "url": "./schemas/PSRule-options.schema.json"
+      },
+      {
+        "fileMatch": "psrule.yml",
+        "url": "./schemas/PSRule-options.schema.json"
+      },
+      {
+        "fileMatch": "**/*.Rule.yaml",
+        "url": "./schemas/PSRule-language.schema.json"
+      },
+      {
+        "fileMatch": "**/*.Rule.yml",
+        "url": "./schemas/PSRule-language.schema.json"
       }
     ],
     "jsonValidation": [
@@ -291,76 +400,6 @@
             "loop": true
           }
         ]
-      }
-    ],
-    "snippets": [
-      {
-        "language": "powershell",
-        "path": "./snippets/powershell.json"
-      },
-      {
-        "language": "markdown",
-        "path": "./snippets/markdown.json"
-      },
-      {
-        "language": "yaml",
-        "path": "./snippets/yaml.json"
-      },
-      {
-        "language": "yaml",
-        "path": "./snippets/github-snippets.json"
-      },
-      {
-        "language": "yaml",
-        "path": "./snippets/pipelines-snippets.json"
-      },
-      {
-        "language": "json",
-        "path": "./snippets/json.json"
-      },
-      {
-        "language": "jsonc",
-        "path": "./snippets/json.json"
-      }
-    ],
-    "taskDefinitions": [
-      {
-        "type": "PSRule",
-        "required": [],
-        "properties": {
-          "path": {
-            "type": "string",
-            "description": "The path containing rules.",
-            "default": "./.ps-rule/"
-          },
-          "inputPath": {
-            "type": "string",
-            "description": "The path PSRule will look for input files. Defaults to workspace root.",
-            "default": "."
-          },
-          "baseline": {
-            "type": "string",
-            "description": "The name of a PSRule baseline to use. Baselines can be used from modules or specified in a separate file. This option overrides the default baseline setting set for a workspace or user."
-          },
-          "modules": {
-            "type": "array",
-            "description": "The name of one or more modules to use."
-          },
-          "outcome": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "Pass",
-                "Fail",
-                "Error"
-              ]
-            },
-            "default": [
-              "Fail",
-              "Error"
-            ]
-          }
-        }
       }
     ],
     "walkthroughs": [
@@ -420,84 +459,45 @@
           "**/*.Rule.jsonc"
         ]
       }
-    ],
-    "yamlValidation": [
-      {
-        "fileMatch": "ps-rule.yaml",
-        "url": "./schemas/PSRule-options.schema.json"
-      },
-      {
-        "fileMatch": "ps-rule.yml",
-        "url": "./schemas/PSRule-options.schema.json"
-      },
-      {
-        "fileMatch": "psrule.yaml",
-        "url": "./schemas/PSRule-options.schema.json"
-      },
-      {
-        "fileMatch": "psrule.yml",
-        "url": "./schemas/PSRule-options.schema.json"
-      },
-      {
-        "fileMatch": "**/*.Rule.yaml",
-        "url": "./schemas/PSRule-language.schema.json"
-      },
-      {
-        "fileMatch": "**/*.Rule.yml",
-        "url": "./schemas/PSRule-language.schema.json"
-      }
     ]
   },
-  "activationEvents": [
-    "onLanguage:powershell",
-    "onLanguage:yaml",
-    "workspaceContains:/ps-rule.yaml",
-    "workspaceContains:**/ps-rule.yaml",
-    "workspaceContains:**/*.Rule.yaml",
-    "workspaceContains:**/*.Rule.yml",
-    "workspaceContains:**/*.Rule.json",
-    "workspaceContains:**/*.Rule.jsonc",
-    "workspaceContains:**/*.Rule.ps1",
-    "onCommand:workbench.action.tasks.runTask"
-  ],
-  "dependencies": {
-    "fs-extra": "^11.2.0",
-    "vscode-languageclient": "^9.0.1"
+  "scripts": {
+    "compile": "tsc -p ./ && dotnet build",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package --dependencies --pre-release --no-git-tag-version --no-update-package-json --githubBranch main --out out/package/",
+    "package:stable": "vsce package --dependencies --no-git-tag-version --no-update-package-json --githubBranch main --out out/package/",
+    "publish": "vsce publish --dependencies --pre-release --no-git-tag-version --no-update-package-json --githubBranch main --packagePath out/package/",
+    "publish:stable": "vsce publish --dependencies --no-git-tag-version --no-update-package-json --githubBranch main --packagePath out/package/",
+    "lint": "eslint . --ext .ts,.tsx",
+    "pretest": "npm run compile",
+    "test": "node ./out/dist/test/runTest.js",
+    "vscode:prepublish": "npm run -S esbuild-base -- --minify && dotnet publish ./dotnet/PSRule.EditorServices/ --output server/",
+    "esbuild-base": "esbuild ./src/main.ts --bundle --outfile=out/dist/main.js --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run -S esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run -S esbuild-base -- --sourcemap --watch"
   },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1",
+    "fs-extra": "^11.2.0"
+  },
+  "extensionDependencies": [
+    "vscode.powershell",
+    "redhat.vscode-yaml",
+    "ms-dotnettools.vscode-dotnet-runtime"
+  ],
   "devDependencies": {
-    "@types/fs-extra": "^11.0.4",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.11.28",
     "@types/vscode": "1.87.0",
+    "@types/fs-extra": "^11.0.4",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
-    "@vscode/test-electron": "^2.3.9",
-    "@vscode/vsce": "^2.24.0",
     "esbuild": "^0.20.2",
     "eslint": "^8.57.0",
     "glob": "^10.3.10",
     "mocha": "^10.3.0",
-    "typescript": "^5.4.2"
-  },
-  "extensionDependencies": [
-    "ms-dotnettools.vscode-dotnet-runtime",
-    "redhat.vscode-yaml",
-    "vscode.powershell"
-  ],
-  "engines": {
-    "vscode": "^1.87.0"
-  },
-  "icon": "media/icon256.png",
-  "galleryBanner": {
-    "color": "#0072c6",
-    "theme": "dark"
-  },
-  "preview": true,
-  "capabilities": {
-    "untrustedWorkspaces": {
-      "supported": "limited",
-      "description": "PSRule in untrusted mode."
-    }
-  },
-  "channel": "stable"
+    "typescript": "^5.4.2",
+    "@vscode/vsce": "^2.24.0",
+    "@vscode/test-electron": "^2.3.9"
+  }
 }
