@@ -466,7 +466,7 @@
 		"glob": "10.3.10",
 		"mocha": "10.3.0",
 		"typescript": "5.4.2",
-		"typescript-esbuild": "latest"
+		"typescript-esbuild": "0.4.5"
 	},
 	"extensionDependencies": [
 		"ms-dotnettools.vscode-dotnet-runtime",
