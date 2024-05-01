@@ -1,31 +1,39 @@
 {
-	"activationEvents": [
-		"onLanguage:powershell",
-		"onLanguage:yaml",
-		"workspaceContains:/ps-rule.yaml",
-		"workspaceContains:**/ps-rule.yaml",
-		"workspaceContains:**/*.Rule.yaml",
-		"workspaceContains:**/*.Rule.yml",
-		"workspaceContains:**/*.Rule.json",
-		"workspaceContains:**/*.Rule.jsonc",
-		"workspaceContains:**/*.Rule.ps1",
-		"onCommand:workbench.action.tasks.runTask"
+	"name": "code",
+	"displayName": "PSRule",
+	"version": "0.0.1",
+	"private": false,
+	"description": "Validate infrastructure as code (IaC) and DevOps repositories using PSRule.",
+	"keywords": [
+		"land"
 	],
-	"author": {
-		"email": "Land@PlayForm.Cloud",
-		"name": "🌆 — Land —",
-		"url": "HTTPS://Land.PlayForm.Cloud"
-	},
+	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/PSRuleLand#readme",
 	"bugs": {
 		"url": "HTTPS://GitHub.Com/CodeEditorLand/PSRuleLand/issues"
 	},
-	"capabilities": {
-		"untrustedWorkspaces": {
-			"description": "PSRule in untrusted mode.",
-			"supported": "limited"
-		}
+	"repository": {
+		"type": "git",
+		"url": "git+HTTPS://github.com/CodeEditorLand/PSRuleLand.git"
 	},
-	"channel": "stable",
+	"license": "SEE LICENSE IN LICENSE",
+	"author": {
+		"name": "🌆 — Land —",
+		"email": "Land@PlayForm.Cloud",
+		"url": "HTTPS://Land.PlayForm.Cloud"
+	},
+	"type": "module",
+	"main": "./out/dist/main.js",
+	"scripts": {
+		"Document": "Document 'Source/**/*.ts'",
+		"compile": "tsc -p ./ && dotnet build",
+		"esbuild": "npm run -S esbuild-base -- --sourcemap",
+		"esbuild-base": "esbuild ./src/main.ts --bundle --outfile=out/dist/main.js --external:vscode --format=cjs --platform=node",
+		"esbuild-watch": "npm run -S esbuild-base -- --sourcemap --watch",
+		"package:stable": "vsce package --dependencies --no-git-tag-version --no-update-package-json --githubBranch main --out out/package/",
+		"prepublishOnly": "Build 'Source/**/*.ts'",
+		"publish": "vsce publish --dependencies --pre-release --no-git-tag-version --no-update-package-json --githubBranch main --packagePath out/package/",
+		"publish:stable": "vsce publish --dependencies --no-git-tag-version --no-update-package-json --githubBranch main --packagePath out/package/"
+	},
 	"contributes": {
 		"commands": [
 			{
@@ -432,10 +440,21 @@
 			}
 		]
 	},
+	"activationEvents": [
+		"onLanguage:powershell",
+		"onLanguage:yaml",
+		"workspaceContains:/ps-rule.yaml",
+		"workspaceContains:**/ps-rule.yaml",
+		"workspaceContains:**/*.Rule.yaml",
+		"workspaceContains:**/*.Rule.yml",
+		"workspaceContains:**/*.Rule.json",
+		"workspaceContains:**/*.Rule.jsonc",
+		"workspaceContains:**/*.Rule.ps1",
+		"onCommand:workbench.action.tasks.runTask"
+	],
 	"dependencies": {
 		"fs-extra": "11.2.0"
 	},
-	"description": "Validate infrastructure as code (IaC) and DevOps repositories using PSRule.",
 	"devDependencies": {
 		"@playform/build": "0.0.7",
 		"@playform/document": "0.0.6",
@@ -444,44 +463,25 @@
 		"esbuild": "0.20.2",
 		"glob": "10.3.12"
 	},
-	"displayName": "PSRule",
 	"extensionDependencies": [
 		"ms-dotnettools.vscode-dotnet-runtime",
 		"redhat.vscode-yaml",
 		"vscode.powershell"
 	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"icon": "media/icon256.png",
 	"galleryBanner": {
 		"color": "#0072c6",
 		"theme": "dark"
 	},
-	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/PSRuleLand#readme",
-	"icon": "media/icon256.png",
-	"keywords": [
-		"land"
-	],
-	"license": "SEE LICENSE IN LICENSE",
-	"main": "./out/dist/main.js",
-	"name": "code",
 	"preview": true,
-	"private": false,
-	"publishConfig": {
-		"access": "public"
+	"capabilities": {
+		"untrustedWorkspaces": {
+			"description": "PSRule in untrusted mode.",
+			"supported": "limited"
+		}
 	},
-	"repository": {
-		"type": "git",
-		"url": "git+HTTPS://github.com/CodeEditorLand/PSRuleLand.git"
-	},
-	"scripts": {
-		"Document": "Document 'Source/**/*.ts'",
-		"compile": "tsc -p ./ && dotnet build",
-		"esbuild": "npm run -S esbuild-base -- --sourcemap",
-		"esbuild-base": "esbuild ./src/main.ts --bundle --outfile=out/dist/main.js --external:vscode --format=cjs --platform=node",
-		"esbuild-watch": "npm run -S esbuild-base -- --sourcemap --watch",
-		"package:stable": "vsce package --dependencies --no-git-tag-version --no-update-package-json --githubBranch main --out out/package/",
-		"prepublishOnly": "Build 'Source/**/*.ts'",
-		"publish": "vsce publish --dependencies --pre-release --no-git-tag-version --no-update-package-json --githubBranch main --packagePath out/package/",
-		"publish:stable": "vsce publish --dependencies --no-git-tag-version --no-update-package-json --githubBranch main --packagePath out/package/"
-	},
-	"type": "module",
-	"version": "0.0.1"
+	"channel": "stable"
 }
