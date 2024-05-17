@@ -1,27 +1,7 @@
 {
 	"name": "code",
 	"displayName": "PSRule",
-	"version": "0.0.1",
-	"private": false,
 	"description": "Validate infrastructure as code (IaC) and DevOps repositories using PSRule.",
-	"keywords": [
-		"land"
-	],
-	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/PSRuleLand#readme",
-	"bugs": {
-		"url": "HTTPS://GitHub.Com/CodeEditorLand/PSRuleLand/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+HTTPS://github.com/CodeEditorLand/PSRuleLand.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
-	"author": {
-		"name": "🛬 Land —",
-		"email": "Land@PlayForm.Cloud",
-		"url": "HTTPS://Land.PlayForm.Cloud"
-	},
-	"type": "module",
 	"main": "./out/dist/main.js",
 	"scripts": {
 		"Document": "Document 'Source/**/*.ts'",
@@ -457,7 +437,6 @@
 	},
 	"devDependencies": {
 		"@playform/build": "0.0.7",
-		"@playform/document": "0.0.6",
 		"@types/fs-extra": "11.0.4",
 		"@types/node": "20.12.10",
 		"esbuild": "0.20.2",
@@ -468,9 +447,6 @@
 		"redhat.vscode-yaml",
 		"vscode.powershell"
 	],
-	"publishConfig": {
-		"access": "public"
-	},
 	"icon": "media/icon256.png",
 	"galleryBanner": {
 		"color": "#0072c6",
