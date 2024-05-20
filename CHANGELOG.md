@@ -34,16 +34,16 @@ What's changed since v2.9.0:
     [#1314](https://github.com/microsoft/PSRule-vscode/pull/1314)
     [#1330](https://github.com/microsoft/PSRule-vscode/pull/1330)
     [#1344](https://github.com/microsoft/PSRule-vscode/pull/1344)
-  - Bump vscode engine to v1.88.0.
-    [#1392](https://github.com/microsoft/PSRule-vscode/pull/1392)
+  - Bump vscode engine to v1.89.0.
+    [#1406](https://github.com/microsoft/PSRule-vscode/pull/1406)
   - Bump typescript to v5.4.5.
     [#1396](https://github.com/microsoft/PSRule-vscode/pull/1396)
   - Bump @vscode/test-electron to v2.3.9.
     [#1334](https://github.com/microsoft/PSRule-vscode/pull/1334)
-  - Bump @vscode/vsce to v2.26.0.
-    [#1400](https://github.com/microsoft/PSRule-vscode/pull/1400)
-  - Bump glob to v10.3.12.
-    [#1384](https://github.com/microsoft/PSRule-vscode/pull/1384)
+  - Bump @vscode/vsce to v2.26.1.
+    [#1407](https://github.com/microsoft/PSRule-vscode/pull/1407)
+  - Bump glob to v10.3.15.
+    [#1414](https://github.com/microsoft/PSRule-vscode/pull/1414)
   - Bump vscode-languageclient to v9.0.1.
     [#1252](https://github.com/microsoft/PSRule-vscode/pull/1252)
   - Bump fs-extra to v11.2.0.
