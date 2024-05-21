@@ -431,13 +431,13 @@
 		"onCommand:workbench.action.tasks.runTask"
 	],
 	"dependencies": {
-		"fs-extra": "^11.2.0"
+		"fs-extra": "11.2.0"
 	},
 	"devDependencies": {
-		"@types/fs-extra": "^11.0.4",
-		"@types/node": "^20.12.12",
-		"esbuild": "^0.21.3",
-		"glob": "^10.3.15"
+		"@types/fs-extra": "11.0.4",
+		"@types/node": "20.12.12",
+		"esbuild": "0.21.3",
+		"glob": "10.3.15"
 	},
 	"extensionDependencies": [
 		"ms-dotnettools.vscode-dotnet-runtime",
