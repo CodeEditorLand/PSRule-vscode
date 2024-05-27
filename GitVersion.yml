@@ -4,20 +4,20 @@
 
 next-version: 3.0.0
 branches:
-    main:
-        regex: ^main$
-        tag: "B"
-        increment: Minor
-        is-mainline: true
-    feature:
-        regex: ^feature/
-        source-branches: ["main"]
-        increment: Inherit
-        tag: B
-    release:
-        regex: ^release/
+  main:
+    regex: ^main$
+    tag: 'B'
+    increment: Minor
+    is-mainline: true
+  feature:
+    regex: ^feature/
+    source-branches: ['main']
+    increment: Inherit
+    tag: B
+  release:
+    regex: ^release/
 ignore:
-    sha: []
+  sha: []
 merge-message-formats: {}
 tag-prefix: v
 mode: ContinuousDeployment
