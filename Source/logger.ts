@@ -1,64 +1,65 @@
-import * as vscode from "vscode";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+'use strict';
+
+import * as vscode from 'vscode';
 
 export enum LogLevel {
-	Normal = 0,
-	Warning = 1,
-	Error = 2,
-	Verbose = 3,
+    Normal,
+    Warning,
+    Error,
+    Verbose,
 }
 
 // Define a logger
 export interface ILogger {
-	verbose(message: string, ...additionalMessages: string[]): void;
+    verbose(message: string, ...additionalMessages: string[]): void;
 
-	error(message: string, ...additionalMessages: string[]): void;
+    error(message: string, ...additionalMessages: string[]): void;
 
-	log(message: string, ...additionalMessages: string[]): void;
+    log(message: string, ...additionalMessages: string[]): void;
 
-	dispose(): void;
+    dispose(): void;
 }
 
 export class Logger implements ILogger {
-	private _LogLevel: LogLevel = LogLevel.Normal;
-	private _Output: vscode.OutputChannel;
+    private _LogLevel: LogLevel = LogLevel.Normal;
+    private _Output: vscode.OutputChannel;
 
-	constructor(channel: string) {
-		this._Output = vscode.window.createOutputChannel(channel);
-	}
+    constructor(channel: string) {
+        this._Output = vscode.window.createOutputChannel(channel);
+    }
 
-	public dispose(): void {
-		this._Output.dispose();
-	}
+    public dispose(): void {
+        this._Output.dispose();
+    }
 
-	public verbose(message: string, ...additionalMessages: string[]): void {
-		this.write(LogLevel.Verbose, message, ...additionalMessages);
-	}
+    public verbose(message: string, ...additionalMessages: string[]): void {
+        this.write(LogLevel.Verbose, message, ...additionalMessages);
+    }
 
-	public error(message: string, ...additionalMessages: string[]): void {
-		this.write(LogLevel.Error, message, ...additionalMessages);
-	}
+    public error(message: string, ...additionalMessages: string[]): void {
+        this.write(LogLevel.Error, message, ...additionalMessages);
+    }
 
-	public log(message: string, ...additionalMessages: string[]): void {
-		this.write(LogLevel.Normal, message, ...additionalMessages);
-	}
+    public log(message: string, ...additionalMessages: string[]): void {
+        this.write(LogLevel.Normal, message, ...additionalMessages);
+    }
 
-	private write(
-		logLevel: LogLevel,
-		message: string,
-		...additionalMessages: string[]
-	): void {
-		if (logLevel >= this._LogLevel) {
-			this.writeLine(message, logLevel);
+    private write(logLevel: LogLevel, message: string, ...additionalMessages: string[]): void {
+        if (logLevel >= this._LogLevel) {
+            this.writeLine(message, logLevel);
 
-			additionalMessages.forEach((line) => {
-				this.writeLine(line, logLevel);
-			});
-		}
-	}
+            additionalMessages.forEach((line) => {
+                this.writeLine(line, logLevel);
+            });
+        }
+    }
 
-	private writeLine(message: string, level: LogLevel): void {
-		this._Output.appendLine(message);
-	}
+    private writeLine(message: string, level: LogLevel): void {
+        this._Output.appendLine(message);
+    }
 }
 
-export const logger: ILogger = new Logger("PSRule");
+export const logger: ILogger = new Logger('PSRule');
