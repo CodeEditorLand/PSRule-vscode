@@ -8,7 +8,7 @@
     "name": "Microsoft"
   },
   "engines": {
-    "vscode": "^1.89.0"
+    "vscode": "^1.90.0"
   },
   "channel": "stable",
   "license": "SEE LICENSE IN LICENSE",
@@ -497,17 +497,17 @@
   ],
   "devDependencies": {
     "@types/mocha": "^10.0.6",
-    "@types/node": "^20.14.1",
-    "@types/vscode": "1.89.0",
+    "@types/node": "^20.14.2",
+    "@types/vscode": "1.90.0",
     "@types/fs-extra": "^11.0.4",
-    "@typescript-eslint/eslint-plugin": "^7.12.0",
-    "@typescript-eslint/parser": "^7.12.0",
-    "esbuild": "^0.21.4",
+    "@typescript-eslint/eslint-plugin": "^7.13.0",
+    "@typescript-eslint/parser": "^7.13.0",
+    "esbuild": "^0.21.5",
     "eslint": "^8.57.0",
     "glob": "^10.4.1",
     "mocha": "^10.4.0",
     "typescript": "^5.4.5",
-    "@vscode/vsce": "^2.26.1",
-    "@vscode/test-electron": "^2.3.9"
+    "@vscode/vsce": "^2.27.0",
+    "@vscode/test-electron": "^2.4.0"
   }
 }
