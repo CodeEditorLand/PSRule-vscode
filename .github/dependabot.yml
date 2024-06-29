@@ -1,20 +1,38 @@
+#
+# Dependabot configuration
+#
+
+# Please see the documentation for all configuration options:
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
 version: 2
-enable-beta-ecosystems: true
-
 updates:
-    - package-ecosystem: "github-actions"
-      directory: "/"
-      schedule:
-          interval: "daily"
+  # Maintain dependencies for NuGet
+  - package-ecosystem: nuget
+    directory: '/'
+    schedule:
+      interval: daily
+    labels:
+      - dependencies
+    reviewers:
+      - microsoft/psrule
 
-    - package-ecosystem: "nuget"
-      directory: "/dotnet/PSRule.EditorServices"
-      schedule:
-          interval: "daily"
-      versioning-strategy: increase
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule:
+      interval: daily
+    labels:
+      - 'ci-quality'
+    reviewers:
+      - 'microsoft/psrule'
 
-    - package-ecosystem: "npm"
-      directory: "/"
-      schedule:
-          interval: "daily"
-      versioning-strategy: increase
+  # Maintain dependencies for npm
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: daily
+    labels:
+      - 'dependencies'
+    reviewers:
+      - 'microsoft/psrule'
