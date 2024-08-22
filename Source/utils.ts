@@ -2,18 +2,18 @@
 // Licensed under the MIT License.
 
 import * as cp from "child_process";
-import * as fse from "fs-extra";
+import { existsSync } from "fs";
 import * as os from "os";
 import * as path from "path";
-import { existsSync } from "fs";
+import * as fse from "fs-extra";
 import {
+	type ExtensionContext,
 	SnippetString,
 	Uri,
-	WorkspaceFolder,
+	type WorkspaceFolder,
+	commands,
 	window,
 	workspace,
-	commands,
-	ExtensionContext,
 } from "vscode";
 import { configuration } from "./configuration";
 import { ext } from "./extension";
@@ -42,13 +42,13 @@ export async function getDocumentationPath(
 		docConfigPath && workspaceRoot
 			? path.join(workspaceRoot.fsPath, docConfigPath)
 			: undefined;
-	let lang = configuration.get().documentationLocalePath;
+	const lang = configuration.get().documentationLocalePath;
 
 	if (!docRootPath && window.activeTextEditor?.document.uri) {
 		docRootPath = path.dirname(window.activeTextEditor.document.uri.path);
 	}
 	if (docRootPath) {
-		let uri = Uri.file(path.join(docRootPath, lang, `${name}.md`));
+		const uri = Uri.file(path.join(docRootPath, lang, `${name}.md`));
 		return uri;
 	}
 	return undefined;
@@ -82,9 +82,9 @@ export async function readDocumentationSnippet(
 	}
 
 	if (snippetFile && (await fse.pathExists(snippetFile))) {
-		let json = await fse.readJson(snippetFile, { encoding: "utf-8" });
+		const json = await fse.readJson(snippetFile, { encoding: "utf-8" });
 		if (json) {
-			let body: string[] = json[name].body;
+			const body: string[] = json[name].body;
 			return new SnippetString(body.join(os.EOL));
 		}
 	}
@@ -107,9 +107,9 @@ export async function readOptionsSnippet(
 		: undefined;
 
 	if (snippetFile && (await fse.pathExists(snippetFile))) {
-		let json = await fse.readJson(snippetFile, { encoding: "utf-8" });
+		const json = await fse.readJson(snippetFile, { encoding: "utf-8" });
 		if (json) {
-			let body: string[] = json[name].body;
+			const body: string[] = json[name].body;
 			return new SnippetString(body.join(os.EOL));
 		}
 	}

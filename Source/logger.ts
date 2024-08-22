@@ -1,15 +1,10 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-"use strict";
-
 import * as vscode from "vscode";
 
 export enum LogLevel {
-	Normal,
-	Warning,
-	Error,
-	Verbose,
+	Normal = 0,
+	Warning = 1,
+	Error = 2,
+	Verbose = 3,
 }
 
 // Define a logger

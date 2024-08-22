@@ -1,11 +1,6 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-"use strict";
-
 import {
-	ConfigurationChangeEvent,
-	ExtensionContext,
+	type ConfigurationChangeEvent,
+	type ExtensionContext,
 	env,
 	workspace,
 } from "vscode";
@@ -138,7 +133,7 @@ export class ConfigurationManager {
 	/**
 	 * A flag for when setting require reload.
 	 */
-	private pendingLoad: boolean = true;
+	private pendingLoad = true;
 
 	constructor(setting?: ISetting, prefix?: string) {
 		this.configurationItemPrefix = prefix ?? configurationItemPrefix;
@@ -176,7 +171,7 @@ export class ConfigurationManager {
 		const config = workspace.getConfiguration(this.configurationItemPrefix);
 
 		// Experimental
-		let experimental = (this.current.experimentalEnabled =
+		const experimental = (this.current.experimentalEnabled =
 			config.get<boolean>(
 				"experimental.enabled",
 				this.default.experimentalEnabled,

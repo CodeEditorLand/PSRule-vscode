@@ -1,29 +1,23 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-"use strict";
-
 import * as fse from "fs-extra";
 import {
-	CancellationToken,
+	type CancellationToken,
 	CodeLens,
-	CodeLensProvider,
-	Command,
-	Disposable,
-	Event,
+	type CodeLensProvider,
+	type Disposable,
+	type Event,
 	EventEmitter,
-	ExtensionContext,
+	type ExtensionContext,
 	Position,
-	Range,
-	TextDocument,
+	type Range,
+	type TextDocument,
 	commands,
 	languages,
 	workspace,
 } from "vscode";
-import { DocumentSelector } from "vscode-languageclient";
+import type { DocumentSelector } from "vscode-languageclient";
 import { createOrEditDocumentation } from "./commands/createOrEditDocumentation";
 import { configuration } from "./configuration";
-import { ILogger } from "./logger";
+import type { ILogger } from "./logger";
 import { getDocumentationPath } from "./utils";
 
 interface IContext {
@@ -50,7 +44,7 @@ export class DocumentationLensProvider implements CodeLensProvider, Disposable {
 		this.regexPowerShell =
 			/(?<rule>Rule )(?:-Name\s)?(?<name>['"]?[^<>:/\\|?*"'`+@._\-\x00-\x1F][^<>:/\\|?*"'`+@\x00-\x1F]{1,126}[^<>:/\\|?*"'`+@._\-\x00-\x1F]+['"]?)(?:.+)/gi;
 		this.regexYaml =
-			/(?<version>apiVersion: github\.com\/microsoft\/PSRule\/v1)(?:\s+kind: Rule\s+metadata:\s+)(?:  name: ?)(?<name>['"]?[^<>:/\\|?*"'`+@._\-\x00-\x1F][^<>:/\\|?*"'`+@\x00-\x1F]{1,126}[^<>:/\\|?*"'`+@._\-\x00-\x1F]+['"]?)/gi;
+			/(?<version>apiVersion: github\.com\/microsoft\/PSRule\/v1)(?:\s+kind: Rule\s+metadata:\s+)(?: {2}name: ?)(?<name>['"]?[^<>:/\\|?*"'`+@._\-\x00-\x1F][^<>:/\\|?*"'`+@\x00-\x1F]{1,126}[^<>:/\\|?*"'`+@._\-\x00-\x1F]+['"]?)/gi;
 		this.regexJson =
 			/("apiVersion":\s*"github\.com\/microsoft\/PSRule\/v1",)(?:\s*"kind":\s*"Rule",\s*"metadata":\s*{\s*)(?:"name":\s)(?<name>"[^<>:/\\|?*"'`+@._\-\x00-\x1F][^<>:/\\|?*"'`+@\x00-\x1F]{1,126}[^<>:/\\|?*"'`+@._\-\x00-\x1F]+")/gi;
 
@@ -64,7 +58,7 @@ export class DocumentationLensProvider implements CodeLensProvider, Disposable {
 	}
 
 	public register(): void {
-		let filter: DocumentSelector = [
+		const filter: DocumentSelector = [
 			{ language: "yaml", pattern: "**/*.Rule.yaml" },
 			{ language: "json", pattern: "**/*.Rule.json" },
 			{ language: "jsonc", pattern: "**/*.Rule.jsonc" },
@@ -91,7 +85,7 @@ export class DocumentationLensProvider implements CodeLensProvider, Disposable {
 			const text = document.getText();
 			let matches;
 			while ((matches = regex.exec(text)) !== null) {
-				let name =
+				const name =
 					matches.groups !== undefined
 						? matches.groups["name"].replace(/\'/g, "")
 						: "";
@@ -129,10 +123,10 @@ export class DocumentationLensProvider implements CodeLensProvider, Disposable {
 		range: Range,
 		name: string,
 	): Promise<CodeLens> {
-		let uri = await getDocumentationPath(name);
-		let exists = uri !== undefined && (await fse.pathExists(uri.fsPath));
-		let title = exists ? "Open documentation" : "Create documentation";
-		let tooltip = exists
+		const uri = await getDocumentationPath(name);
+		const exists = uri !== undefined && (await fse.pathExists(uri.fsPath));
+		const title = exists ? "Open documentation" : "Create documentation";
+		const tooltip = exists
 			? "Open documentation for rule"
 			: "Create documentation for rule";
 

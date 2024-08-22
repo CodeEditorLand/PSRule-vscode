@@ -23,38 +23,39 @@ Continue reading to see the changes included in the latest version.
 
 What's changed since v2.9.0:
 
-- New features
-  - Automatically acquire PSRule runtime components by @BernieWhite.
-    [#1315](https://github.com/microsoft/PSRule-vscode/issues/1315)
-    - PSRule runtime support is now included within the extension.
-    - Installing PSRule PowerShell module is no longer required for the extension to work.
-- General improvements:
-  - Updated publisher to be under Microsoft by @BernieWhite.
-    [#1215](https://github.com/microsoft/PSRule-vscode/issues/1215)
-- Engineering:
-  - Updated PSRule schema files.
-    [#1209](https://github.com/microsoft/PSRule-vscode/pull/1209)
-    [#1261](https://github.com/microsoft/PSRule-vscode/pull/1261)
-    [#1314](https://github.com/microsoft/PSRule-vscode/pull/1314)
-    [#1330](https://github.com/microsoft/PSRule-vscode/pull/1330)
-    [#1344](https://github.com/microsoft/PSRule-vscode/pull/1344)
-  - Bump vscode engine to v1.92.0.
-    [#1469](https://github.com/microsoft/PSRule-vscode/pull/1469)
-  - Bump typescript to v5.4.5.
-    [#1396](https://github.com/microsoft/PSRule-vscode/pull/1396)
-  - Bump @vscode/test-electron to v2.4.1.
-    [#1468](https://github.com/microsoft/PSRule-vscode/pull/1468)
-  - Bump @vscode/vsce to v2.31.1.
-    [#1478](https://github.com/microsoft/PSRule-vscode/pull/1478)
-  - Bump glob to v11.0.0.
-    [#1470](https://github.com/microsoft/PSRule-vscode/pull/1470)
-  - Bump vscode-languageclient to v9.0.1.
-    [#1252](https://github.com/microsoft/PSRule-vscode/pull/1252)
-  - Bump fs-extra to v11.2.0.
-    [#1298](https://github.com/microsoft/PSRule-vscode/pull/1298)
-- Bug fixes:
-  - Fixed notification of preview version by @BernieWhite.
-    [#1324](https://github.com/microsoft/PSRule-vscode/issues/1324)
+-   New features
+    -   Automatically acquire PSRule runtime components by @BernieWhite.
+        [#1315](https://github.com/microsoft/PSRule-vscode/issues/1315)
+        -   PSRule runtime support is now included within the extension.
+        -   Installing PSRule PowerShell module is no longer required for the
+            extension to work.
+-   General improvements:
+    -   Updated publisher to be under Microsoft by @BernieWhite.
+        [#1215](https://github.com/microsoft/PSRule-vscode/issues/1215)
+-   Engineering:
+    -   Updated PSRule schema files.
+        [#1209](https://github.com/microsoft/PSRule-vscode/pull/1209)
+        [#1261](https://github.com/microsoft/PSRule-vscode/pull/1261)
+        [#1314](https://github.com/microsoft/PSRule-vscode/pull/1314)
+        [#1330](https://github.com/microsoft/PSRule-vscode/pull/1330)
+        [#1344](https://github.com/microsoft/PSRule-vscode/pull/1344)
+    -   Bump vscode engine to v1.92.0.
+        [#1469](https://github.com/microsoft/PSRule-vscode/pull/1469)
+    -   Bump typescript to v5.4.5.
+        [#1396](https://github.com/microsoft/PSRule-vscode/pull/1396)
+    -   Bump @vscode/test-electron to v2.4.1.
+        [#1468](https://github.com/microsoft/PSRule-vscode/pull/1468)
+    -   Bump @vscode/vsce to v2.31.1.
+        [#1478](https://github.com/microsoft/PSRule-vscode/pull/1478)
+    -   Bump glob to v11.0.0.
+        [#1470](https://github.com/microsoft/PSRule-vscode/pull/1470)
+    -   Bump vscode-languageclient to v9.0.1.
+        [#1252](https://github.com/microsoft/PSRule-vscode/pull/1252)
+    -   Bump fs-extra to v11.2.0.
+        [#1298](https://github.com/microsoft/PSRule-vscode/pull/1298)
+-   Bug fixes:
+    -   Fixed notification of preview version by @BernieWhite.
+        [#1324](https://github.com/microsoft/PSRule-vscode/issues/1324)
 
 ## v2.9.0
 

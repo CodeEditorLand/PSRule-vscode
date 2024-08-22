@@ -1,11 +1,6 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-"use strict";
-
 import * as vscode from "vscode";
-import { ext, ExtensionInfo } from "./extension";
-import { configuration, ConfigurationManager } from "./configuration";
+import { configuration } from "./configuration";
+import type { ExtensionInfo } from "./extension";
 import { logger } from "./logger";
 
 /**

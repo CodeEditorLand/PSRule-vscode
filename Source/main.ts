@@ -1,9 +1,4 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-"use strict";
-
-import * as vscode from "vscode";
+import type * as vscode from "vscode";
 import { ext } from "./extension";
 
 /**

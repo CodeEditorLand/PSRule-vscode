@@ -1,23 +1,18 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-"use strict";
-
 import * as path from "path";
 import * as vscode from "vscode";
-import { logger } from "./logger";
-import { PSRuleTaskProvider } from "./tasks";
-import { ConfigurationManager } from "./configuration";
-import { pwsh } from "./powershell";
-import { DocumentationLensProvider } from "./docLens";
+import { configureSettings } from "./commands/configureSettings";
 import { createOptionsFile } from "./commands/createOptionsFile";
 import { openOptionsFile } from "./commands/openOptionsFile";
-import { walkthroughCopySnippet } from "./commands/walkthroughCopySnippet";
-import { configureSettings } from "./commands/configureSettings";
+import { restore } from "./commands/restore";
 import { runAnalysisTask } from "./commands/runAnalysisTask";
 import { showTasks } from "./commands/showTasks";
-import { PSRuleLanguageServer, getLanguageServer } from "./utils";
-import { restore } from "./commands/restore";
+import { walkthroughCopySnippet } from "./commands/walkthroughCopySnippet";
+import { ConfigurationManager } from "./configuration";
+import { DocumentationLensProvider } from "./docLens";
+import { logger } from "./logger";
+import { pwsh } from "./powershell";
+import { PSRuleTaskProvider } from "./tasks";
+import { type PSRuleLanguageServer, getLanguageServer } from "./utils";
 
 export let taskManager: PSRuleTaskProvider | undefined;
 export let docLensProvider: DocumentationLensProvider | undefined;
@@ -41,14 +36,13 @@ export class ExtensionManager implements vscode.Disposable {
 	 * Information about the extension.
 	 */
 	public get info(): Promise<ExtensionInfo> {
-		const parent = this;
 		return new Promise<ExtensionInfo>((resolve, reject) => {
-			if (parent._info) {
-				resolve(parent._info);
+			if (this._info) {
+				resolve(this._info);
 			} else {
-				setTimeout(function (): void {
-					if (parent._info) {
-						resolve(parent._info);
+				setTimeout((): void => {
+					if (this._info) {
+						resolve(this._info);
 					} else {
 						reject("Failed to get info.");
 					}
@@ -202,7 +196,7 @@ export class ExtensionManager implements vscode.Disposable {
 
 		// Get channel
 		let extensionId = "ps-rule.code";
-		let isMainstreamInstalled =
+		const isMainstreamInstalled =
 			vscode.extensions.getExtension(extensionId) !== undefined;
 
 		if (

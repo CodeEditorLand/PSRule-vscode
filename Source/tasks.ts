@@ -1,20 +1,15 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-"use strict";
-
 import * as fs from "fs";
 import * as path from "path";
 import * as vscode from "vscode";
-import { defaultOptionsFile } from "./consts";
-import { ILogger } from "./logger";
 import {
-	configuration,
 	ExecutionActionPreference,
 	TraceLevelPreference,
+	configuration,
 } from "./configuration";
-import { getActiveOrFirstWorkspace } from "./utils";
+import { defaultOptionsFile } from "./consts";
 import { ext } from "./extension";
+import type { ILogger } from "./logger";
+import { getActiveOrFirstWorkspace } from "./utils";
 
 const emptyTasks: vscode.Task[] = [];
 
@@ -54,7 +49,7 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
 	// Fields
 	private readonly context: IContext;
 
-	private static taskType: string = "PSRule";
+	private static taskType = "PSRule";
 	private tasks: vscode.Task[] | undefined;
 
 	// We use a CustomExecution task when state needs to be shared across runs of the task or when
@@ -163,7 +158,7 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
 
 		try {
 			const result: vscode.Task[] = [];
-			let t = this.createTaskRunAnalysis(folder);
+			const t = this.createTaskRunAnalysis(folder);
 			if (t !== undefined) result.push(t);
 			return result;
 		} catch (e) {
@@ -241,7 +236,7 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
 		}
 
 		function getCmdTooling(): string[] {
-			let params: string[] = [];
+			const params: string[] = [];
 
 			// Path
 			if (path !== undefined && path !== "") {
@@ -315,7 +310,7 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
 		}
 
 		// Set environment variables for the task.
-		let taskEnv: { [key: string]: string } = {
+		const taskEnv: { [key: string]: string } = {
 			PSRULE_OUTPUT_STYLE: "VisualStudioCode",
 			PSRULE_OUTPUT_AS: outputAs,
 			PSRULE_OUTPUT_CULTURE: vscode.env.language,
