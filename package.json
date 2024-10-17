@@ -435,14 +435,14 @@
 		]
 	},
 	"dependencies": {
-		"fs-extra": "^11.2.0"
+		"fs-extra": "11.2.0"
 	},
 	"description": "Validate infrastructure as code (IaC) and DevOps repositories using PSRule.",
 	"devDependencies": {
-		"@types/fs-extra": "^11.0.4",
-		"@types/node": "^22.7.5",
-		"esbuild": "^0.24.0",
-		"glob": "^11.0.0"
+		"@types/fs-extra": "11.0.4",
+		"@types/node": "22.7.6",
+		"esbuild": "0.24.0",
+		"glob": "11.0.0"
 	},
 	"displayName": "PSRule",
 	"extensionDependencies": [
