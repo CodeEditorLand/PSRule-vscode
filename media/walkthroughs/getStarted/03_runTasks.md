@@ -9,7 +9,7 @@ Run tasks within Visual Studio Code to analyze the Infrastructure as Code within
 - Then select **PSRule: Run analysis**.
 - Optionally, select **PSRule** to scan the task output to collect error or warnings.
 
-![`Run tasks`](03_runTasks.svg)
+![Run tasks](03_runTasks.svg)
 
 ## Configuring tasks
 

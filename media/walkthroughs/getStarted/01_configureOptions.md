@@ -9,7 +9,7 @@
 Additional modules can be added to the options file.
 For example:
 
-[`Copy snippet`](command:PSRule.walkthroughCopySnippet?%7B%22snippet%22%3A%2201_requiresModules%22%7D)
+[Copy snippet](command:PSRule.walkthroughCopySnippet?%7B%22snippet%22%3A%2201_requiresModules%22%7D)
 
 ```yaml
 requires:
@@ -22,7 +22,7 @@ requires:
 Rules often have additional configuration options that can be set.
 For example, the `PSRule.Rules.Azure` module has the following options:
 
-[`Copy snippet`](command:PSRule.walkthroughCopySnippet?%7B%22snippet%22%3A%2201_configureAzure%22%7D)
+[Copy snippet](command:PSRule.walkthroughCopySnippet?%7B%22snippet%22%3A%2201_configureAzure%22%7D)
 
 ```yaml
 configuration:
