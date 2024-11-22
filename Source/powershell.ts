@@ -24,6 +24,7 @@ interface IExternalPowerShellDetails {
 interface IPowerShellExtensionClient {
     registerExternalExtension(id: string, apiVersion?: string): string;
     unregisterExternalExtension(uuid: string): boolean;
+
     getPowerShellVersionDetails(uuid: string): Promise<IExternalPowerShellDetails>;
 }
 
@@ -60,6 +61,7 @@ export class PowerShellExtension implements vscode.Disposable {
             logger.verbose(`PowerShell extension is not installed.`);
 
             const showExtension = 'Show Extension';
+
             const alwaysIgnore = 'Always Ignore';
 
             vscode.window

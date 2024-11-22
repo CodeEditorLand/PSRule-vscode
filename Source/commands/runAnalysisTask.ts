@@ -11,7 +11,9 @@ import { ext } from '../extension';
  */
 export async function runAnalysisTask(): Promise<void> {
     const workspace = getActiveOrFirstWorkspace();
+
     if (!workspace) return;
+
     const t = await ext.tasks?.getWorkspaceTasks(workspace);
 
     if (!t) return;

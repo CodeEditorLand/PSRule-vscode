@@ -13,7 +13,9 @@ import { ext } from '../extension';
  */
 export async function restore(): Promise<void> {
     const workspace = getActiveOrFirstWorkspace();
+
     const server = ext.server;
+
     if (!workspace || !server) return;
 
     logger.log('Restoring modules.');
@@ -39,6 +41,7 @@ export async function restore(): Promise<void> {
 
     if (tool.status !== 0) {
         logger.log(`Failed to restore modules. Exit code: ${tool.status}`);
+
         return;
     }
     else {

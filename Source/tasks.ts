@@ -96,7 +96,9 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
      */
     public resolveTask(_task: vscode.Task): vscode.Task | undefined {
         const definition: PSRuleTaskDefinition = <any>_task.definition;
+
         const scope = _task.scope as vscode.WorkspaceFolder;
+
         return this.resolveTaskRunAnalysis(scope, definition);
     }
 
@@ -106,11 +108,13 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
      */
     private async getTasks(): Promise<vscode.Task[]> {
         const folders = vscode.workspace.workspaceFolders;
+
         if (!folders) {
             return Promise.resolve([]);
         }
 
         const result: vscode.Task[] = [];
+
         for (let i = 0, len = folders.length; i < len; i++) {
             if (this.isEnabled(folders[i])) {
                 const tasks = await this.getWorkspaceTasks(folders[i]);
@@ -149,6 +153,7 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
         }
 
         const rootPath = folder.uri.fsPath;
+
         const optionFilePath = path.join(rootPath, defaultOptionsFile);
 
         if (!(await this.exists(optionFilePath))) {
@@ -157,8 +162,11 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
 
         try {
             const result: vscode.Task[] = [];
+
             let t = this.createTaskRunAnalysis(folder);
+
             if (t !== undefined) result.push(t);
+
             return result;
         } catch (e) {
             return emptyTasks;
@@ -220,10 +228,15 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
         }
 
         const executionRuleExcluded = configuration.get().executionRuleExcluded;
+
         const executionRuleSuppressed = configuration.get().executionRuleSuppressed;
+
         const executionUnprocessedObject = configuration.get().executionUnprocessedObject;
+
         const outputAs = configuration.get().outputAs;
+
         const ruleBaseline = configuration.get().ruleBaseline;
+
         const traceTask = configuration.get().traceTask;
 
         function getTaskName() {
@@ -283,7 +296,9 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
         }
 
         const taskName = getTaskName();
+
         const binPath = ext.server?.binPath;
+
         const languageServerPath = ext.server?.languageServerPath
 
         if (!binPath || !languageServerPath) {
@@ -321,8 +336,10 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
         }
 
         const cwd = folder?.uri.fsPath ?? getActiveOrFirstWorkspace()?.uri.fsPath;
+
         const args = [languageServerPath, 'run'];
         args.push(...getCmdTooling());
+
         if (traceTask === TraceLevelPreference.Verbose) {
             args.push('--verbose');
         }
@@ -347,6 +364,7 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
 
         const parameterArgs = args.slice(1);
         logger.verbose(`Preparing task '${taskName}' with arguments: ${parameterArgs.join(' ')}`);
+
         return t;
     }
 }

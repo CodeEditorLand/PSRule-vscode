@@ -13,11 +13,14 @@ import { getActiveOrFirstWorkspace } from '../utils';
  */
 export async function openOptionsFile(path: string | undefined): Promise<void> {
     const optionFilePath = await getOptionFile(path);
+
     if (optionFilePath === '' || optionFilePath === undefined) return;
 
     const uri = Uri.file(optionFilePath);
     logger.verbose(`Using options path ${uri.fsPath}`);
+
     const exists = await fse.pathExists(uri.fsPath);
+
     if (!exists)
         return;
 
@@ -28,11 +31,15 @@ export async function openOptionsFile(path: string | undefined): Promise<void> {
 async function getOptionFile(path: string | undefined): Promise<string | undefined> {
     // Require an active workspace.
     const active: WorkspaceFolder | undefined = getActiveOrFirstWorkspace();
+
     if (!active) return Promise.resolve(undefined);
+
     if (!(path === '' || path === undefined)) return Promise.resolve(path);
 
     const workspaceUri: Uri = active.uri;
+
     const searchPattern = new RelativePattern(workspaceUri, '**/ps-rule.yaml');
+
     return new Promise<string | undefined>((resolve) => {
         workspace.findFiles(searchPattern).then(files => {
             if (files === undefined || files.length === 0)

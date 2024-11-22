@@ -35,18 +35,23 @@ export async function createOrEditDocumentation(name: string | undefined): Promi
         logger.verbose(`Using documentation path ${uri.fsPath}`);
 
         let exists = await fse.pathExists(uri.fsPath);
+
         if (!exists) {
             await fse.ensureDir(parent.fsPath);
             await fse.writeFile(uri.fsPath, '', { encoding: 'utf-8' });
         }
         const document: TextDocument = await workspace.openTextDocument(uri);
+
         const editor = await window.showTextDocument(document);
 
         // Populate new documentation with a snippet
         const snippetConfig = configuration.get().documentationSnippet;
+
         const snippetPathConfig = configuration.get().documentationCustomSnippetPath;
+
         if (!exists && snippetConfig !== '') {
             let snippet = await readDocumentationSnippet(snippetPathConfig, snippetConfig);
+
             if (snippet) {
                 editor.insertSnippet(snippet, new Position(0, 0));
             }

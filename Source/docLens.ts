@@ -80,18 +80,27 @@ export class DocumentationLensProvider implements CodeLensProvider, Disposable {
     ): Promise<CodeLens[]> {
         if (configuration.get().codeLensRuleDocumentationLinks) {
             const regex = this.getLanguageExpression(document.languageId);
+
             if (regex === undefined) return [];
 
             this.codeLenses = [];
+
             const text = document.getText();
+
             let matches;
+
             while ((matches = regex.exec(text)) !== null) {
                 let name =
                     matches.groups !== undefined ? matches.groups['name'].replace(/\'/g, '') : '';
+
                 const line = document.lineAt(document.positionAt(matches.index).line);
+
                 const indexOf = line.text.indexOf(matches[1]);
+
                 const position = new Position(line.lineNumber, indexOf);
+
                 const range = document.getWordRangeAtPosition(position);
+
                 if (range && name) {
                     this.codeLenses.push(await this.createCodeLens(range, name));
                 }
@@ -103,8 +112,11 @@ export class DocumentationLensProvider implements CodeLensProvider, Disposable {
 
     private getLanguageExpression(language: string): RegExp | undefined {
         if (language === 'powershell') return this.regexPowerShell;
+
         if (language === 'yaml') return this.regexYaml;
+
         if (language === 'json' || language === 'jsonc') return this.regexJson;
+
         return undefined;
     }
 
@@ -116,8 +128,11 @@ export class DocumentationLensProvider implements CodeLensProvider, Disposable {
      */
     private async createCodeLens(range: Range, name: string): Promise<CodeLens> {
         let uri = await getDocumentationPath(name);
+
         let exists = uri !== undefined && (await fse.pathExists(uri.fsPath));
+
         let title = exists ? 'Open documentation' : 'Create documentation';
+
         let tooltip = exists ? 'Open documentation for rule' : 'Create documentation for rule';
 
         return new CodeLens(range, {

@@ -53,9 +53,13 @@ export enum TraceLevelPreference {
  */
 export interface ISetting {
     codeLensRuleDocumentationLinks: boolean;
+
     documentationCustomSnippetPath: string | undefined;
+
     documentationSnippet: string;
+
     documentationPath: string | undefined;
+
     documentationLocalePath: string;
 
     /**

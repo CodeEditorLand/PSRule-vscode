@@ -42,6 +42,7 @@ export class ExtensionManager implements vscode.Disposable {
      */
     public get info(): Promise<ExtensionInfo> {
         const parent = this;
+
         return new Promise<ExtensionInfo>((resolve, reject) => {
             if (parent._info) {
                 resolve(parent._info);
@@ -75,6 +76,7 @@ export class ExtensionManager implements vscode.Disposable {
     public activate(context: vscode.ExtensionContext) {
         this._context = context;
         this._info = this.checkExtension(context);
+
         if (!this._info.disable) {
             this.activateFeatures();
         }
@@ -97,6 +99,7 @@ export class ExtensionManager implements vscode.Disposable {
 
     private async activateFeatures(): Promise<void> {
         await this.switchMode();
+
         if (this._context) {
             this._context.subscriptions.push(
                 vscode.workspace.onDidGrantWorkspaceTrust(() => {
@@ -146,6 +149,7 @@ export class ExtensionManager implements vscode.Disposable {
 
         if (!docLensProvider) {
             docLensProvider = new DocumentationLensProvider(logger, this._context);
+
             docLensProvider.register();
         }
 
@@ -180,6 +184,7 @@ export class ExtensionManager implements vscode.Disposable {
 
         // Get channel
         let extensionId = 'ps-rule.code';
+
         let isMainstreamInstalled = vscode.extensions.getExtension(extensionId) !== undefined;
 
         if (path.basename(context.globalStorageUri.fsPath) === 'ps-rule.code-dev') {
@@ -188,7 +193,9 @@ export class ExtensionManager implements vscode.Disposable {
 
         // Get current version
         const extension = vscode.extensions.getExtension(extensionId)!;
+
         const extensionVersion: string = extension.packageJSON.version;
+
         const extensionChannel: string = extension.packageJSON.channel;
 
         logger.verbose(`Running extension channel: ${extensionChannel}`);
@@ -206,8 +213,10 @@ export class ExtensionManager implements vscode.Disposable {
             .get('showChannelUpgrade', true);
 
         const showExtension = 'Show Extension';
+
         if (extensionChannel === 'dev' && showChannelUpgrade) {
             const showReleaseNotes = 'Show Release Notes';
+
             const alwaysIgnore = 'Always Ignore';
 
             vscode.window
@@ -239,6 +248,7 @@ export class ExtensionManager implements vscode.Disposable {
         }
         if (extensionChannel === 'stable' && extensionVersion != lastVersion && showChannelUpgrade) {
             const showReleaseNotes = 'Show Release Notes';
+
             const alwaysIgnore = 'Always Ignore';
 
             vscode.window
@@ -263,6 +273,7 @@ export class ExtensionManager implements vscode.Disposable {
         }
 
         let disable = false;
+
         if (extensionChannel === 'dev' && isMainstreamInstalled) {
             disable = true;
             vscode.window
@@ -287,6 +298,7 @@ export class ExtensionManager implements vscode.Disposable {
             path: context.extensionPath,
             disable: disable,
         };
+
         return result;
     }
 }

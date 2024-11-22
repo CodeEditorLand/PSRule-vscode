@@ -15,6 +15,7 @@ import { ext } from '../extension';
 export async function walkthroughCopySnippet(name: string | undefined): Promise<void> {
     // Clear the clipboard and load snippets.
     env.clipboard.writeText('');
+
     const snippets = load('getStarted');
 
     // Find the correct snippet and copy it to the clipboard.
@@ -22,8 +23,10 @@ export async function walkthroughCopySnippet(name: string | undefined): Promise<
         value.forEach((element: { name: string; snippet: string[] | undefined; }) => {
             if (name === element.name && element.snippet) {
                 logger.verbose(`Copying snippet for ${name} to the clipboard.`);
+
                 const text = element.snippet.join('\n');
                 env.clipboard.writeText(text);
+
                 return;
             }
         });
@@ -37,7 +40,9 @@ export async function walkthroughCopySnippet(name: string | undefined): Promise<
  */
 async function load(name: string): Promise<any> {
     const info = await ext.info;
+
     const helpFile = info ? path.join(info.path, `media/walkthroughs/${name}/snippets.json`) : undefined;
+
     if (helpFile && (await fse.pathExists(helpFile))) {
         return await fse.readJson(helpFile, { encoding: 'utf-8' });
     }
