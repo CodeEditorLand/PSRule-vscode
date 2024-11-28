@@ -21,6 +21,7 @@ import { PSRuleTaskProvider } from "./tasks";
 import { getLanguageServer, PSRuleLanguageServer } from "./utils";
 
 export let taskManager: PSRuleTaskProvider | undefined;
+
 export let docLensProvider: DocumentationLensProvider | undefined;
 
 export interface ExtensionInfo {
