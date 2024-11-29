@@ -92,7 +92,9 @@ export interface ISetting {
 	experimentalEnabled: boolean;
 
 	outputAs: OutputAs;
+
 	notificationsShowChannelUpgrade: boolean;
+
 	notificationsShowPowerShellExtension: boolean;
 
 	/**
@@ -137,7 +139,9 @@ const globalDefaults: ISetting = {
  */
 export class ConfigurationManager {
 	private current: ISetting;
+
 	private readonly default: ISetting;
+
 	private readonly configurationItemPrefix: string;
 
 	/**
@@ -147,8 +151,11 @@ export class ConfigurationManager {
 
 	constructor(setting?: ISetting, prefix?: string) {
 		this.configurationItemPrefix = prefix ?? configurationItemPrefix;
+
 		this.default = setting ?? globalDefaults;
+
 		this.current = { ...this.default };
+
 		this.loadSettings();
 	}
 
@@ -167,6 +174,7 @@ export class ConfigurationManager {
 		if (this.pendingLoad) {
 			this.loadSettings();
 		}
+
 		return this.current;
 	}
 
@@ -174,6 +182,7 @@ export class ConfigurationManager {
 		if (!e.affectsConfiguration(this.configurationItemPrefix)) {
 			return;
 		}
+
 		this.pendingLoad = true;
 	}
 
@@ -214,11 +223,13 @@ export class ConfigurationManager {
 				"execution.ruleExcluded",
 				this.default.executionRuleExcluded,
 			);
+
 		this.current.executionRuleSuppressed =
 			config.get<ExecutionActionPreference>(
 				"execution.ruleSuppressed",
 				this.default.executionRuleSuppressed,
 			);
+
 		this.current.executionUnprocessedObject =
 			config.get<ExecutionActionPreference>(
 				"execution.unprocessedObject",

@@ -25,6 +25,7 @@ const packagedPath = "server/Microsoft.PSRule.EditorServices.dll";
 
 export interface PSRuleLanguageServer {
 	binPath: string;
+
 	languageServerPath: string;
 }
 
@@ -37,20 +38,26 @@ export async function getDocumentationPath(
 	name: string,
 ): Promise<Uri | undefined> {
 	const workspaceRoot = getActiveOrFirstWorkspace()?.uri;
+
 	const docConfigPath = configuration.get().documentationPath;
+
 	let docRootPath =
 		docConfigPath && workspaceRoot
 			? path.join(workspaceRoot.fsPath, docConfigPath)
 			: undefined;
+
 	let lang = configuration.get().documentationLocalePath;
 
 	if (!docRootPath && window.activeTextEditor?.document.uri) {
 		docRootPath = path.dirname(window.activeTextEditor.document.uri.path);
 	}
+
 	if (docRootPath) {
 		let uri = Uri.file(path.join(docRootPath, lang, `${name}.md`));
+
 		return uri;
 	}
+
 	return undefined;
 }
 
@@ -68,6 +75,7 @@ export async function readDocumentationSnippet(
 
 	// Try custom snippet file
 	const workspaceRoot = getActiveOrFirstWorkspace()?.uri;
+
 	let snippetFile =
 		file && workspaceRoot
 			? path.join(workspaceRoot.fsPath, file)
@@ -76,6 +84,7 @@ export async function readDocumentationSnippet(
 	// Try built-in snippet file
 	if (!snippetFile) {
 		const info = await ext.info;
+
 		snippetFile = info
 			? path.join(info.path, "snippets/markdown.json")
 			: undefined;
@@ -83,8 +92,10 @@ export async function readDocumentationSnippet(
 
 	if (snippetFile && (await fse.pathExists(snippetFile))) {
 		let json = await fse.readJson(snippetFile, { encoding: "utf-8" });
+
 		if (json) {
 			let body: string[] = json[name].body;
+
 			return new SnippetString(body.join(os.EOL));
 		}
 	}
@@ -102,14 +113,17 @@ export async function readOptionsSnippet(
 
 	// Try built-in snippet file
 	const info = await ext.info;
+
 	const snippetFile = info
 		? path.join(info.path, "snippets/options.json")
 		: undefined;
 
 	if (snippetFile && (await fse.pathExists(snippetFile))) {
 		let json = await fse.readJson(snippetFile, { encoding: "utf-8" });
+
 		if (json) {
 			let body: string[] = json[name].body;
+
 			return new SnippetString(body.join(os.EOL));
 		}
 	}
@@ -121,6 +135,7 @@ export function getActiveOrFirstWorkspace(): WorkspaceFolder | undefined {
 			window.activeTextEditor.document.uri,
 		);
 	}
+
 	return workspace.workspaceFolders && workspace.workspaceFolders.length > 0
 		? workspace.workspaceFolders[0]
 		: undefined;
@@ -130,12 +145,15 @@ export async function getLanguageServer(
 	context: ExtensionContext,
 ): Promise<PSRuleLanguageServer | undefined> {
 	const binPath = await acquireDotnet();
+
 	const languageServerPath = getLanguageServerPath(context);
 
 	// Run the language server.
 	if (binPath && languageServerPath) {
 		const tool = cp.spawnSync(binPath, [languageServerPath, "--version"]);
+
 		const installedVersion = tool.stdout.toString().trim();
+
 		const shortVersion = installedVersion.split("+")[0];
 
 		logger.verbose(
@@ -144,6 +162,7 @@ export async function getLanguageServer(
 
 		return { binPath, languageServerPath };
 	}
+
 	return undefined;
 }
 
@@ -162,8 +181,10 @@ function getLanguageServerPath(context: ExtensionContext): string | undefined {
 		logger.error(
 			`Failed to find language server at: ${languageServerPath}`,
 		);
+
 		return undefined;
 	}
+
 	return path.resolve(languageServerPath);
 }
 
@@ -173,6 +194,7 @@ function getLanguageServerPath(context: ExtensionContext): string | undefined {
  */
 async function acquireDotnet(): Promise<string> {
 	logger.verbose(`Acquiring .NET runtime v${dotnetVersion}.`);
+
 	const extensionId = (await ext.info).id;
 
 	const result = await commands.executeCommand<{ dotnetPath: string }>(
@@ -185,9 +207,13 @@ async function acquireDotnet(): Promise<string> {
 
 	if (!result) {
 		const errorMessage = `Failed to install .NET runtime v${dotnetVersion}. Please see the .NET install tool error dialog for more detailed information, or to report an issue.`;
+
 		logger.log(errorMessage);
+
 		throw new Error(errorMessage);
 	}
+
 	logger.verbose(`Using .NET runtime from: ${result.dotnetPath}`);
+
 	return path.resolve(result.dotnetPath);
 }

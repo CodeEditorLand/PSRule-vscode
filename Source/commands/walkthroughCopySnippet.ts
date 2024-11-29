@@ -31,6 +31,7 @@ export async function walkthroughCopySnippet(
 					);
 
 					const text = element.snippet.join("\n");
+
 					env.clipboard.writeText(text);
 
 					return;
@@ -55,5 +56,6 @@ async function load(name: string): Promise<any> {
 	if (helpFile && (await fse.pathExists(helpFile))) {
 		return await fse.readJson(helpFile, { encoding: "utf-8" });
 	}
+
 	return Promise.resolve(undefined);
 }

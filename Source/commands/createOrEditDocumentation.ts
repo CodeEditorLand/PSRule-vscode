@@ -30,6 +30,7 @@ export async function createOrEditDocumentation(
 			},
 		});
 	}
+
 	if (name === "" || name === undefined) return;
 
 	let uri = await getDocumentationPath(name);
@@ -43,8 +44,10 @@ export async function createOrEditDocumentation(
 
 		if (!exists) {
 			await fse.ensureDir(parent.fsPath);
+
 			await fse.writeFile(uri.fsPath, "", { encoding: "utf-8" });
 		}
+
 		const document: TextDocument = await workspace.openTextDocument(uri);
 
 		const editor = await window.showTextDocument(document);

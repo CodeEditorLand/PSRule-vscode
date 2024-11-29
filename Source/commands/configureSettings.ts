@@ -12,7 +12,9 @@ import { logger } from "../logger";
  */
 export async function configureSettings(): Promise<void> {
 	const extensionId = (await ext.info).id;
+
 	logger.verbose(`Opening settings for ${extensionId}`);
+
 	commands.executeCommand(
 		"workbench.action.openSettings",
 		`@ext:${extensionId}`,

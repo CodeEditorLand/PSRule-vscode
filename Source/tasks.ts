@@ -21,6 +21,7 @@ const emptyTasks: vscode.Task[] = [];
 
 interface IContext {
 	readonly logger: ILogger;
+
 	readonly extensionContext: vscode.ExtensionContext;
 }
 
@@ -56,6 +57,7 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
 	private readonly context: IContext;
 
 	private static taskType: string = "PSRule";
+
 	private tasks: vscode.Task[] | undefined;
 
 	// We use a CustomExecution task when state needs to be shared across runs of the task or when
@@ -64,6 +66,7 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
 	// then a simple ShellExecution or ProcessExecution should be enough.
 	// Since our build has this shared state, the CustomExecution is used below.
 	private sharedState: string | undefined;
+
 	private providerRegistration!: vscode.Disposable;
 
 	constructor(logger: ILogger, extensionContext: vscode.ExtensionContext) {
@@ -83,6 +86,7 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
 			PSRuleTaskProvider.taskType,
 			this,
 		);
+
 		this.context.logger.verbose("Registered task provider.");
 	}
 
@@ -123,9 +127,11 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
 		for (let i = 0, len = folders.length; i < len; i++) {
 			if (this.isEnabled(folders[i])) {
 				const tasks = await this.getWorkspaceTasks(folders[i]);
+
 				result.push(...tasks);
 			}
 		}
+
 		return result;
 	}
 
@@ -147,6 +153,7 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
 				if (err) {
 					reject(err);
 				}
+
 				resolve(data.toString());
 			});
 		});
@@ -260,24 +267,29 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
 			// Path
 			if (path !== undefined && path !== "") {
 				params.push("--path");
+
 				params.push(`'${path}'`);
 			}
 
 			// Input Path
 			if (inputPath !== undefined && inputPath !== "") {
 				params.push("--input-path");
+
 				params.push(inputPath);
 			} else {
 				params.push("--input-path");
+
 				params.push(".");
 			}
 
 			// Baseline
 			if (baseline !== undefined && baseline !== "") {
 				params.push("--baseline");
+
 				params.push(`'${baseline}'`);
 			} else if (ruleBaseline !== undefined && ruleBaseline !== "") {
 				params.push("--baseline");
+
 				params.push(`'${ruleBaseline}'`);
 			}
 
@@ -285,6 +297,7 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
 			if (modules !== undefined && modules.length > 0) {
 				for (let i = 0; i < modules.length; i++) {
 					params.push("--module");
+
 					params.push(`'${modules[i]}'`);
 				}
 			}
@@ -293,12 +306,16 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
 			if (outcome !== undefined && outcome.length > 0) {
 				for (let i = 0; i < outcome.length; i++) {
 					params.push("--outcome");
+
 					params.push(outcome[i]);
 				}
 			} else {
 				params.push("--outcome");
+
 				params.push("Fail");
+
 				params.push("--outcome");
+
 				params.push("Error");
 			}
 
@@ -361,6 +378,7 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
 			folder?.uri.fsPath ?? getActiveOrFirstWorkspace()?.uri.fsPath;
 
 		const args = [languageServerPath, "run"];
+
 		args.push(...getCmdTooling());
 
 		if (traceTask === TraceLevelPreference.Verbose) {
@@ -379,12 +397,15 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
 			}),
 			matcher,
 		);
+
 		t.detail = "Run analysis for current workspace.";
+
 		t.presentationOptions = {
 			echo: false,
 		};
 
 		const parameterArgs = args.slice(1);
+
 		logger.verbose(
 			`Preparing task '${taskName}' with arguments: ${parameterArgs.join(" ")}`,
 		);
@@ -398,14 +419,17 @@ export class PSRuleTaskProvider implements vscode.TaskProvider {
  */
 class NoLanguageServerPseudoterminal implements vscode.Pseudoterminal {
 	private writeEmitter = new vscode.EventEmitter<string>();
+
 	private closeEmitter = new vscode.EventEmitter<void>();
 
 	onDidWrite: vscode.Event<string> = this.writeEmitter.event;
+
 	onDidClose?: vscode.Event<void> = this.closeEmitter.event;
 
 	open(initialDimensions: vscode.TerminalDimensions | undefined): void {
 		this.run();
 	}
+
 	close(): void {}
 
 	private async run(): Promise<void> {
@@ -413,7 +437,9 @@ class NoLanguageServerPseudoterminal implements vscode.Pseudoterminal {
 			this.writeEmitter.fire(
 				"A problem with the language server prevented the PSRule run.",
 			);
+
 			this.closeEmitter.fire();
+
 			resolve();
 		});
 	}

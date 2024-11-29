@@ -26,15 +26,21 @@ export let docLensProvider: DocumentationLensProvider | undefined;
 
 export interface ExtensionInfo {
 	id: string;
+
 	version: string;
+
 	channel: string;
+
 	path: string;
+
 	disable: boolean;
 }
 
 export class ExtensionManager implements vscode.Disposable {
 	private _info!: ExtensionInfo;
+
 	private _context!: vscode.ExtensionContext;
+
 	private _server!: PSRuleLanguageServer | undefined;
 
 	constructor() {}
@@ -44,6 +50,7 @@ export class ExtensionManager implements vscode.Disposable {
 	 */
 	public get info(): Promise<ExtensionInfo> {
 		const parent = this;
+
 		return new Promise<ExtensionInfo>((resolve, reject) => {
 			if (parent._info) {
 				resolve(parent._info);
@@ -76,7 +83,9 @@ export class ExtensionManager implements vscode.Disposable {
 
 	public activate(context: vscode.ExtensionContext) {
 		this._context = context;
+
 		this._info = this.checkExtension(context);
+
 		if (!this._info.disable) {
 			this.activateFeatures();
 		}
@@ -86,12 +95,15 @@ export class ExtensionManager implements vscode.Disposable {
 		if (docLensProvider) {
 			docLensProvider.dispose();
 		}
+
 		if (taskManager) {
 			taskManager.dispose();
 		}
+
 		if (pwsh) {
 			pwsh.dispose();
 		}
+
 		if (logger) {
 			logger.dispose();
 		}
@@ -99,12 +111,14 @@ export class ExtensionManager implements vscode.Disposable {
 
 	private async activateFeatures(): Promise<void> {
 		await this.switchMode();
+
 		if (this._context) {
 			this._context.subscriptions.push(
 				vscode.workspace.onDidGrantWorkspaceTrust(() => {
 					this.switchMode();
 				}),
 			);
+
 			this._context.subscriptions.push(
 				vscode.commands.registerCommand(
 					"PSRule.openOptionsFile",
@@ -113,6 +127,7 @@ export class ExtensionManager implements vscode.Disposable {
 					},
 				),
 			);
+
 			this._context.subscriptions.push(
 				vscode.commands.registerCommand(
 					"PSRule.createOptionsFile",
@@ -121,6 +136,7 @@ export class ExtensionManager implements vscode.Disposable {
 					},
 				),
 			);
+
 			this._context.subscriptions.push(
 				vscode.commands.registerCommand(
 					"PSRule.configureSettings",
@@ -129,6 +145,7 @@ export class ExtensionManager implements vscode.Disposable {
 					},
 				),
 			);
+
 			this._context.subscriptions.push(
 				vscode.commands.registerCommand(
 					"PSRule.walkthroughCopySnippet",
@@ -137,6 +154,7 @@ export class ExtensionManager implements vscode.Disposable {
 					},
 				),
 			);
+
 			this._context.subscriptions.push(
 				vscode.commands.registerCommand(
 					"PSRule.runAnalysisTask",
@@ -145,11 +163,13 @@ export class ExtensionManager implements vscode.Disposable {
 					},
 				),
 			);
+
 			this._context.subscriptions.push(
 				vscode.commands.registerCommand("PSRule.showTasks", () => {
 					showTasks();
 				}),
 			);
+
 			this._context.subscriptions.push(
 				vscode.commands.registerCommand("PSRule.restore", () => {
 					restore();
@@ -166,6 +186,7 @@ export class ExtensionManager implements vscode.Disposable {
 				logger,
 				this._context,
 			);
+
 			docLensProvider.register();
 		}
 
@@ -179,6 +200,7 @@ export class ExtensionManager implements vscode.Disposable {
 
 		if (this.isTrusted) {
 			taskManager = new PSRuleTaskProvider(logger, this._context);
+
 			taskManager.register();
 		}
 
@@ -204,6 +226,7 @@ export class ExtensionManager implements vscode.Disposable {
 
 		// Get channel
 		let extensionId = "ps-rule.code";
+
 		let isMainstreamInstalled =
 			vscode.extensions.getExtension(extensionId) !== undefined;
 
@@ -216,10 +239,13 @@ export class ExtensionManager implements vscode.Disposable {
 
 		// Get current version
 		const extension = vscode.extensions.getExtension(extensionId)!;
+
 		const extensionVersion: string = extension.packageJSON.version;
+
 		const extensionChannel: string = extension.packageJSON.channel;
 
 		logger.verbose(`Running extension channel: ${extensionChannel}`);
+
 		logger.verbose(`Running extension version: ${extensionVersion}`);
 
 		// Get last version
@@ -234,8 +260,10 @@ export class ExtensionManager implements vscode.Disposable {
 			.get("showChannelUpgrade", true);
 
 		const showExtension = "Show Extension";
+
 		if (extensionChannel === "dev" && showChannelUpgrade) {
 			const showReleaseNotes = "Show Release Notes";
+
 			const alwaysIgnore = "Always Ignore";
 
 			vscode.window
@@ -254,12 +282,14 @@ export class ExtensionManager implements vscode.Disposable {
 							),
 						);
 					}
+
 					if (choice === showExtension) {
 						vscode.commands.executeCommand(
 							"workbench.extensions.search",
 							"ps-rule.code",
 						);
 					}
+
 					if (choice === alwaysIgnore) {
 						vscode.workspace
 							.getConfiguration("PSRule.notifications")
@@ -271,12 +301,14 @@ export class ExtensionManager implements vscode.Disposable {
 					}
 				});
 		}
+
 		if (
 			extensionChannel === "stable" &&
 			extensionVersion != lastVersion &&
 			showChannelUpgrade
 		) {
 			const showReleaseNotes = "Show Release Notes";
+
 			const alwaysIgnore = "Always Ignore";
 
 			vscode.window
@@ -294,6 +326,7 @@ export class ExtensionManager implements vscode.Disposable {
 							),
 						);
 					}
+
 					if (choice === alwaysIgnore) {
 						vscode.workspace
 							.getConfiguration("PSRule.notifications")
@@ -307,8 +340,10 @@ export class ExtensionManager implements vscode.Disposable {
 		}
 
 		let disable = false;
+
 		if (extensionChannel === "dev" && isMainstreamInstalled) {
 			disable = true;
+
 			vscode.window
 				.showWarningMessage(
 					`You may experience issues running the ${extensionChannel} version of PSRule, side-by-side with the stable version. Please uninstall one of ${extensionChannel} or stable version and reload Visual Studio Code for the best experience.`,
@@ -331,6 +366,7 @@ export class ExtensionManager implements vscode.Disposable {
 			path: context.extensionPath,
 			disable: disable,
 		};
+
 		return result;
 	}
 }

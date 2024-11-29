@@ -25,6 +25,7 @@ export interface ILogger {
 
 export class Logger implements ILogger {
 	private _LogLevel: LogLevel = LogLevel.Normal;
+
 	private _Output: vscode.OutputChannel;
 
 	constructor(channel: string) {

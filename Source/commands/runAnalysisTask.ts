@@ -20,10 +20,12 @@ export async function runAnalysisTask(): Promise<void> {
 	if (!t) return;
 
 	const result: Task[] = [];
+
 	t.forEach((task) => {
 		if (task.name === "Run analysis" && task.source === "PSRule") {
 			result.push(task);
 		}
 	});
+
 	await tasks.executeTask(result[0]);
 }

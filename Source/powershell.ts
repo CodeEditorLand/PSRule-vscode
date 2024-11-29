@@ -14,8 +14,11 @@ import { logger } from "./logger";
  */
 interface IExternalPowerShellDetails {
 	exePath: string;
+
 	version: string;
+
 	displayName: string;
+
 	architecture: string;
 }
 
@@ -24,6 +27,7 @@ interface IExternalPowerShellDetails {
  */
 interface IPowerShellExtensionClient {
 	registerExternalExtension(id: string, apiVersion?: string): string;
+
 	unregisterExternalExtension(uuid: string): boolean;
 
 	getPowerShellVersionDetails(
@@ -37,7 +41,9 @@ export class PowerShellExtension implements vscode.Disposable {
 		| undefined;
 
 	private _version!: string;
+
 	private _path!: string;
+
 	private uuid!: string;
 
 	constructor() {
@@ -60,6 +66,7 @@ export class PowerShellExtension implements vscode.Disposable {
 		if (this.extension !== undefined && !this.extension.isActive) {
 			this.extension.activate().then((client) => {
 				this.uuid = client.registerExternalExtension(info.id, "v1");
+
 				client
 					.getPowerShellVersionDetails(this.uuid)
 					.then((v) => this.handlePowerShell(v));
@@ -84,6 +91,7 @@ export class PowerShellExtension implements vscode.Disposable {
 							"ms-vscode.PowerShell",
 						);
 					}
+
 					if (choice === alwaysIgnore) {
 						vscode.workspace
 							.getConfiguration("PSRule.notifications")
@@ -101,12 +109,14 @@ export class PowerShellExtension implements vscode.Disposable {
 		if (this.extension && this.uuid !== undefined) {
 			const powerShellExtensionClient = this.extension!
 				.exports as IPowerShellExtensionClient;
+
 			powerShellExtensionClient.unregisterExternalExtension(this.uuid);
 		}
 	}
 
 	private handlePowerShell(value: IExternalPowerShellDetails): void {
 		this._version = value.version;
+
 		this._path = value.exePath;
 
 		logger.verbose(`Using PowerShell ${this._version} from: ${this._path}`);

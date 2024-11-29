@@ -25,6 +25,7 @@ export async function openOptionsFile(path: string | undefined): Promise<void> {
 	if (optionFilePath === "" || optionFilePath === undefined) return;
 
 	const uri = Uri.file(optionFilePath);
+
 	logger.verbose(`Using options path ${uri.fsPath}`);
 
 	const exists = await fse.pathExists(uri.fsPath);
@@ -32,6 +33,7 @@ export async function openOptionsFile(path: string | undefined): Promise<void> {
 	if (!exists) return;
 
 	const document: TextDocument = await workspace.openTextDocument(uri);
+
 	await window.showTextDocument(document);
 }
 
@@ -54,9 +56,11 @@ async function getOptionFile(
 			if (files === undefined || files.length === 0) resolve(undefined);
 
 			const names: string[] = [];
+
 			files.forEach((item) => {
 				names.push(item.path);
 			});
+
 			window
 				.showQuickPick(names, { title: "Options file" })
 				.then((item) => {

@@ -21,6 +21,7 @@ export async function createOptionsFile(
 	if (defaultUri) {
 		defaultUri = Uri.joinPath(defaultUri, "/ps-rule.yaml");
 	}
+
 	if (path === "" || path === undefined) {
 		const response = await window.showSaveDialog({
 			defaultUri: defaultUri,
@@ -30,8 +31,10 @@ export async function createOptionsFile(
 		});
 
 		if (!response || !response.fsPath) return;
+
 		path = response.fsPath;
 	}
+
 	if (path === "" || path === undefined) return;
 
 	let uri = Uri.file(path);
@@ -45,8 +48,10 @@ export async function createOptionsFile(
 
 		if (!exists) {
 			await fse.ensureDir(parent.fsPath);
+
 			await fse.writeFile(uri.fsPath, "", { encoding: "utf-8" });
 		}
+
 		const document: TextDocument = await workspace.openTextDocument(uri);
 
 		const editor = await window.showTextDocument(document);
