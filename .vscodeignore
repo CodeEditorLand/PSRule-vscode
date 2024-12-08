@@ -26,8 +26,4 @@ SECURITY.md
 SUPPORT.md
 .markdownlint.json
 out/updates.txt
-GitVersion.yml
-ps-rule.lock.json
-*.sln
-build.mjs
-.devcontainer/
+README.md
