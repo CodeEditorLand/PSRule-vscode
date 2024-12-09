@@ -440,8 +440,8 @@
 	},
 	"displayName": "PSRule V2",
 	"extensionDependencies": [
-		"vscode.powershell",
-		"redhat.vscode-yaml"
+		"redhat.vscode-yaml",
+		"vscode.powershell"
 	],
 	"galleryBanner": {
 		"color": "#0072c6",
