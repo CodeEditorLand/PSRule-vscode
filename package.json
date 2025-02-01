@@ -434,7 +434,7 @@
 	"devDependencies": {
 		"@types/fs-extra": "11.0.4",
 		"@types/glob": "8.1.0",
-		"@types/node": "22.10.10",
+		"@types/node": "22.13.0",
 		"ansi-regex": ">=6.1.0",
 		"esbuild": "0.24.2",
 		"glob": "11.0.1",
